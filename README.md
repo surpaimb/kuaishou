@@ -1,6 +1,6 @@
 <h1 align="left"><a href="#">KuaiShou SDK</a></h1>
 
-📦 字节跳动PHP SDK 抖音小程序、头条小程序开发组件。PHP SDK for kuaishou (douyin, tiktok, toutiao)
+📦 快手PHP SDK 快手小程序开发组件。PHP SDK for kuaishou
 
 
 ## Requirement
@@ -32,8 +32,13 @@ $options = [
 ];
 
 $app = Factory::make($options);
-
+// 接口调用凭证
+//  $token = $app->access_token->getToken(true); 
+// 登录：code2Session 三方小程序使用 js_code 置换 session_key 和 open_id。
 $session = $app->auth->session($code);
+// 解密敏感信息
+$user = $app->encryptor->decryptData($session->session_key, $iv, $encryptedData);
+
 ```
 
 
