@@ -78,6 +78,32 @@ class Client extends BaseClient
             $params[$key] = empty($value) ? $this->message[$key] : $value;
         }
 
+
+        foreach ($params['data'] as $key => $value) {
+            if (is_array($value)) {
+                if (\array_key_exists('value', $value)) {
+                    $params['data'][$key] = ['value' => $value['value']];
+
+                    continue;
+                }
+
+                if (count($value) >= 1) {
+                    $value = [
+                        'value' => $value[0],
+//                        'color' => $value[1],// color unsupported
+                    ];
+                }
+            } else {
+                $value = [
+                    'value' => strval($value),
+                ];
+            }
+
+            $params['data'][$key] = $value;
+        }
+        // 转为JSON字符串
+        $params['data'] = json_encode($params['data']);
+
         return $params;
     }
 
